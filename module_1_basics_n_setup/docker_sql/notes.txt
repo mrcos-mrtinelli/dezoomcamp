@@ -1,0 +1,114 @@
+# This is just for reference, it's actually part of another module 
+# later in the course.
+# -------
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "airflow"]
+      interval: 5s
+      retries: 5
+    restart: always
+
+# Basic PostgreSQL container
+# -------
+
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:13
+
+# Create a network to connect containers
+# in this case, PostgreSQL and pgAdmin
+# -------
+
+docker network create pg-network
+
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  --network=pg-network \
+  --name=pg-database \
+  postgres:13
+
+docker run -it \
+  -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+  -e PGADMIN_DEFAULT_PASSWORD="root" \
+  -p 8080:80 \
+  --network=pg-network \
+  --name pg-admin \
+  dpage/pgadmin4
+
+# Command to run the ingestion script with all args
+# -------
+python3 data_ingestion.py  --user=root  --password=root  --host=localhost   --port=5432   --db=ny_taxi  --table_name=yellow_taxi_data   --url="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+
+# Build the container with name taxi_ingest and version 001
+# -------
+
+docker build -t taxi_ingest:v001 .
+
+# Run the taxi_ingest docker image:
+# -------
+
+NOTE: the url arg was put into an evinroment variable in the video
+NOTE: my script uses curl instead of wget 
+along with gunzip to unzip the downloaded file.
+
+docker run -it \
+  --network=pg-network \
+  taxi_ingest:v001 \
+  --user=root \
+  --password=root \
+  --host=pg-database \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=yellow_taxi_trips \
+  --url="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+
+# load zones data
+
+docker run -it \
+  --network=pg-network \
+  taxi_ingest:v001 \
+  --user=root \
+  --password=root \
+  --host=pg-database \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=zones \
+  --url="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv"
+
+
+# HOMEWORK QUESTIONS
+1. --rm
+2. 0.42.0
+3. 15612
+  # PREP DATA FOR QUESTION 3
+  docker run -it \
+  --network=pg-network \
+  taxi_ingest:v001 \
+  --user=root \
+  --password=root \
+  --host=pg-database \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=green_taxi_trips \
+  --url="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-09.csv.gz"
+4. 2019-09-26
+5. "Brooklyn" "Manhattan" "Queens"
+6. JFK Airport
+7. 
