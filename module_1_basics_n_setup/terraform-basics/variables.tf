@@ -1,6 +1,6 @@
 variable "credentials" {
-    description = "GCS Credentials location"
-    default = "./keys/terraform-de-camp-cred.json"
+  description = "GCS Credentials location"
+  default     = "./keys/terraform-de-camp-cred.json"
 }
 
 variable "gcs_project_name" {
