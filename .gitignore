@@ -16,6 +16,45 @@ ny_taxi_postgres_data/
 *.tfstate
 *.tfstate.*
 
+# Pyre type checker
+.pyre/
+
+# data files
+mage_ai/server/data/files/**
+default_repo
+instance_metadata.json
+~/.mage_data
+
+
+# Docker specific files
+.bash_history
+.jupyter/
+.local/
+.npm/
+.python_history
+mage_ai/frontend/package-lock.json
+docker-compose.override.yml
+
+# DB files
+*.db
+
+# Terraform files
+**/.terraform*
+*.tfstate*
+*.zip
+
+# vscode
+.vscode/
+
+
+
+# Scratch files
+scratch*
+/mage_data*
+*secrets*.json
+magic-zoomcamp
+*.json
+
 # Crash log files
 crash.log
 crash.*.log
