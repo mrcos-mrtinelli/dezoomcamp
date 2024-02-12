@@ -10,7 +10,7 @@
 2. Create DataFram from each and append them to a list
 3. Append the list together to create a single DataFrame with all of the data.
 
-Code: export_green_taxi_data.py 
+Code: [load_green_taxi_data.py](https://github.com/mrcos-mrtinelli/dezoomcamp/blob/main/module_3_data_warehouse/module3-zoomcamp-hw/data_loaders/load_green_taxi_data.py)
 
 ## Data Tranformer
 
@@ -20,7 +20,7 @@ None used this time.
 
 1. Use `pyarrow` to export data to Google Cloud Storage to avoid issues with data types/parquet schema.
 
-Code: load_green_taxi_data_to_gcs_pyarrow
+Code: [export_green_taxi_data_to_gcs_pyarrow](https://github.com/mrcos-mrtinelli/dezoomcamp/blob/main/module_3_data_warehouse/module3-zoomcamp-hw/data_exporters/export_green_taxi_data_to_gcs_pyarrow.py)
 
 # Homework Answers:
 [Homework repo](https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/cohorts/2024/03-data-warehouse/homework.md)
