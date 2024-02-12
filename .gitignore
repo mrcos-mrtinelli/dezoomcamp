@@ -8,6 +8,9 @@
 # pg data
 ny_taxi_postgres_data/
 
+# parquet
+*.parquet
+
 # TERRAFORM IGNORES
 # Local .terraform directories
 **/.terraform/*
