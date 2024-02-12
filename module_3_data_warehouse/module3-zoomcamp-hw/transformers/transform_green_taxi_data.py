@@ -10,12 +10,8 @@ if 'test' not in globals():
 def transform(data, *args, **kwargs):
     
     # parse datetime columns to timestamp for BigQuery
-    # data['lpep_pickup_datetime'] = pd.to_datetime(data['lpep_pickup_datetime'])
-    # data['lpep_dropoff_datetime'] = pd.to_datetime(data['lpep_dropoff_datetime'])
-
-    data['lpep_pickup_datetime'] =  pd.to_datetime(data['lpep_pickup_datetime'], format='%d%b%Y:%H:%M:%S.%f')
-    data['lpep_dropoff_datetime'] =  pd.to_datetime(data['lpep_dropoff_datetime'], format='%d%b%Y:%H:%M:%S.%f')
-
+    data['lpep_pickup_datetime'] = pd.to_datetime(data['lpep_pickup_datetime'])
+    data['lpep_dropoff_datetime'] = pd.to_datetime(data['lpep_dropoff_datetime'])
 
     # standardize column names
     data = data.rename(columns={
@@ -29,7 +25,6 @@ def transform(data, *args, **kwargs):
         .str.replace(' ', '_')
         .str.lower()
     )
-
 
     return data
 

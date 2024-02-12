@@ -3,35 +3,18 @@ blocks:
   color: null
   configuration: {}
   downstream_blocks:
-  - transform_green_taxi_data
+  - export_green_taxi_data_to_gcs_pyarrow
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
   name: load_green_taxi_data
   retry_config: null
-  status: updated
+  status: executed
   timeout: null
   type: data_loader
   upstream_blocks: []
   uuid: load_green_taxi_data
-- all_upstream_blocks_executed: true
-  color: null
-  configuration: {}
-  downstream_blocks:
-  - load_green_taxi_data_to_gcs
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: transform_green_taxi_data
-  retry_config: null
-  status: executed
-  timeout: null
-  type: transformer
-  upstream_blocks:
-  - load_green_taxi_data
-  uuid: transform_green_taxi_data
 - all_upstream_blocks_executed: true
   color: null
   configuration: {}
@@ -40,14 +23,14 @@ blocks:
   executor_type: local_python
   has_callback: false
   language: python
-  name: load_green_taxi_data_to_gcs
+  name: export_green_taxi_data_to_gcs_pyarrow
   retry_config: null
   status: executed
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - transform_green_taxi_data
-  uuid: load_green_taxi_data_to_gcs
+  - load_green_taxi_data
+  uuid: export_green_taxi_data_to_gcs_pyarrow
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
@@ -69,7 +52,7 @@ settings:
 spark_config: {}
 tags: []
 type: python
-updated_at: '2024-02-11T23:58:36+00:00'
+updated_at: '2024-02-12 21:37:50'
 uuid: green_taxi_data
 variables_dir: /home/src/mage_data/module3-zoomcamp-hw
 widgets: []
