@@ -63,14 +63,16 @@ info_people_2 = gen_pipeline.run(people_2(), table_name='people', write_disposit
 sum_all_ages = conn.sql(f"SELECT SUM(Age) FROM people")
 display(sum_all_ages)
 
-gen_1 = people_1()
-gen_2 = people_2()
-all_persons = itertools.chain(gen_2, gen_1)
+# WRONG, don't merge with python, let dlt do it
+# gen_1 = people_1()
+# gen_2 = people_2()
+# all_persons = itertools.chain(gen_2, gen_1)
 
 # running with merge write disposition
-info_merge = gen_pipeline.run(all_persons, table_name='merged_people', write_disposition='merge', primary_key='ID')
+info_merged_1 = gen_pipeline.run(people_1(), table_name='merged_people', write_disposition='merge', primary_key='id')
+info_merged_2 = gen_pipeline.run(people_2(), table_name='merged_people', write_disposition='merge', primary_key='id')
 
-all_merged_people = conn.sql(f"SELECT * FROM merged_people")
+all_merged_people = conn.sql(f"SELECT * FROM merged_people ORDER BY id")
 display(all_merged_people)
 
 sum_all_merged_ages = conn.sql(f"SELECT SUM(Age) FROM merged_people")
